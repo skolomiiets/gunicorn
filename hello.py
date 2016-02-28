@@ -1,4 +1,4 @@
-
+#/usr/bin/python3.4
 import urlparse
 
 def app(env, start_response):
@@ -9,7 +9,14 @@ def app(env, start_response):
     status = '200 OK'
     headers = [('Content-Type', 'text/plain')]
     start_response(status, headers)
-    body = ["%s=%s\n" % (str(key),str(value))
-         for key,value in query.items()]
+    nobody = ""
+
+    for key, value in body.items():
+        if type(value) is list:
+            for i in value:
+                nobody = nobody + key + "=" + str(i) + "\n"
+        else:
+            nobody = nobody + key + "=" + str(value) + "\n"    
+
     
-    return iter(body)
+    return [nobody]
